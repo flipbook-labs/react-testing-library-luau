@@ -1,5 +1,3 @@
---!strict
-
 -- The single dynamic boundary onto react-roblox's test internals. Everything
 -- here is `unknown`-vetted: react-roblox exports the internals object (the
 -- same channel upstream React DOM exposes for testing tools — RTL-js depends

@@ -1,5 +1,3 @@
---!strict
-
 -- Renders an Instance subtree as an indented text tree for query error
 -- messages, the way prettyDOM does for HTML. Shows the details queries care
 -- about: displayed text, placeholder, and test-id tags.

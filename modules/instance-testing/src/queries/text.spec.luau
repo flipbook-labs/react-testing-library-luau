@@ -1,4 +1,3 @@
---!nonstrict
 local JestGlobals = require("@pkg/JestGlobals")
 
 local text = require("./text")
@@ -6,7 +5,7 @@ local text = require("./text")
 local afterEach = JestGlobals.afterEach
 local describe = JestGlobals.describe
 local expect = JestGlobals.expect
-local it = JestGlobals.it
+local test = JestGlobals.test
 
 local container: Folder
 
@@ -29,14 +28,14 @@ afterEach(function()
 end)
 
 describe("getByText", function()
-	it("finds a TextLabel by exact text", function()
+	test("finds a TextLabel by exact text", function()
 		newContainer()
 		local label = makeLabel("Log in")
 
 		expect(text.get(container, "Log in")).toBe(label)
 	end)
 
-	it("finds a TextButton by exact text", function()
+	test("finds a TextButton by exact text", function()
 		newContainer()
 		local button = Instance.new("TextButton")
 		button.Text = "Submit"
@@ -45,14 +44,14 @@ describe("getByText", function()
 		expect(text.get(container, "Submit")).toBe(button)
 	end)
 
-	it("normalizes whitespace by default", function()
+	test("normalizes whitespace by default", function()
 		newContainer()
 		local label = makeLabel("  Log   in  ")
 
 		expect(text.get(container, "Log in")).toBe(label)
 	end)
 
-	it("does not match TextBoxes", function()
+	test("does not match TextBoxes", function()
 		newContainer()
 		local box = Instance.new("TextBox")
 		box.Text = "typed value"
@@ -61,7 +60,7 @@ describe("getByText", function()
 		expect(text.query(container, "typed value")).toBeNil()
 	end)
 
-	it("throws with the container tree when nothing matches", function()
+	test("throws with the container tree when nothing matches", function()
 		newContainer()
 		makeLabel("Something else")
 
@@ -70,7 +69,7 @@ describe("getByText", function()
 		end).toThrow("Unable to find an element matching ByText")
 	end)
 
-	it("throws when multiple elements match", function()
+	test("throws when multiple elements match", function()
 		newContainer()
 		makeLabel("Duplicate")
 		makeLabel("Duplicate")
@@ -80,7 +79,7 @@ describe("getByText", function()
 		end).toThrow("Found 2 elements")
 	end)
 
-	it("searches nested containers", function()
+	test("searches nested containers", function()
 		newContainer()
 		local frame = Instance.new("Frame")
 		frame.Parent = container
@@ -93,12 +92,12 @@ describe("getByText", function()
 end)
 
 describe("query/queryAll/getAll variants", function()
-	it("queryByText returns nil when nothing matches", function()
+	test("queryByText returns nil when nothing matches", function()
 		newContainer()
 		expect(text.query(container, "missing")).toBeNil()
 	end)
 
-	it("queryByText throws when multiple elements match", function()
+	test("queryByText throws when multiple elements match", function()
 		newContainer()
 		makeLabel("Duplicate")
 		makeLabel("Duplicate")
@@ -108,12 +107,12 @@ describe("query/queryAll/getAll variants", function()
 		end).toThrow("Found 2 elements")
 	end)
 
-	it("queryAllByText returns an empty table when nothing matches", function()
+	test("queryAllByText returns an empty table when nothing matches", function()
 		newContainer()
 		expect(text.queryAll(container, "missing")).toEqual({})
 	end)
 
-	it("getAllByText returns every match", function()
+	test("getAllByText returns every match", function()
 		newContainer()
 		local first = makeLabel("Duplicate", "First")
 		local second = makeLabel("Duplicate", "Second")
@@ -121,7 +120,7 @@ describe("query/queryAll/getAll variants", function()
 		expect(text.getAll(container, "Duplicate")).toEqual({ first, second })
 	end)
 
-	it("getAllByText throws when nothing matches", function()
+	test("getAllByText throws when nothing matches", function()
 		newContainer()
 		expect(function()
 			text.getAll(container, "missing")
@@ -130,21 +129,21 @@ describe("query/queryAll/getAll variants", function()
 end)
 
 describe("matcher options", function()
-	it("exact = false does case-insensitive substring matching", function()
+	test("exact = false does case-insensitive substring matching", function()
 		newContainer()
 		local label = makeLabel("Welcome back, Marin!")
 
 		expect(text.get(container, "welcome back", { exact = false })).toBe(label)
 	end)
 
-	it("pattern = true treats the matcher as a Lua pattern", function()
+	test("pattern = true treats the matcher as a Lua pattern", function()
 		newContainer()
 		local label = makeLabel("Count: 42")
 
 		expect(text.get(container, "^Count: %d+$", { pattern = true })).toBe(label)
 	end)
 
-	it("accepts a function matcher receiving normalized text and instance", function()
+	test("accepts a function matcher receiving normalized text and instance", function()
 		newContainer()
 		local label = makeLabel("target")
 
@@ -155,7 +154,7 @@ describe("matcher options", function()
 		expect(found).toBe(label)
 	end)
 
-	it("supports a custom normalizer", function()
+	test("supports a custom normalizer", function()
 		newContainer()
 		local label = makeLabel("MONEY")
 

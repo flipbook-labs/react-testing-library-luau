@@ -1,5 +1,3 @@
---!strict
-
 -- Simulates events on rendered instances. Two mechanisms, chosen per event
 -- (see docs/EVENT_DISPATCH.md):
 --

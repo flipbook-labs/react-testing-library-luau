@@ -1,5 +1,3 @@
---!strict
-
 -- Queries by displayed text: the `Text` property of TextLabels and
 -- TextButtons. TextBoxes are excluded — their `Text` is a user-editable
 -- value, queried via displayValue instead (mirrors upstream testing-library,

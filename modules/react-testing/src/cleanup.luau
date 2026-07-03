@@ -1,5 +1,3 @@
---!strict
-
 -- Unmounts every root render() created and destroys the containers it owns.
 -- Call from afterEach (or use installCleanup) so a failed test never leaks
 -- mounted UI into the next one.

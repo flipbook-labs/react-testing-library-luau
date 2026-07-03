@@ -48,7 +48,7 @@ and for user-level security:
 - **Event dispatch that works everywhere**: React handler invocation through
   react-roblox's exported test internals, plus real engine signals where Luau
   can trigger them ([docs/EVENT_DISPATCH.md](docs/EVENT_DISPATCH.md))
-- **`--!strict` throughout; no `any` casts** in library source (CI-enforced);
+- **Strict-mode Luau throughout (via `.luaurc`); no `any` casts** in library source (CI-enforced);
   explicit option types instead of merge-based option objects
 - **Roblox event names** (`activated`, `textChanged`, `focus`), not DOM
   aliases (`click`, `change`)

@@ -43,7 +43,7 @@ MIT licensing on both Roblox repos means we can freely adapt logic and port test
 - Testing: `jsdotlua/jest@3.10.0` + jest-globals, `*.spec.luau` next to source, executed through **rocale-cli** (Open Cloud Luau execution against `ROBLOX_UNIT_TESTING_PLACE_ID`); harness pattern in `agent-gateway/.lute/tasks/run-tests.luau` + `.lute/test.luau`.
 - React stack: `jsdotlua/react@17.0.2` + `react-roblox@17.0.2` (flipbook, storyteller).
 - In-Studio e2e pattern exists: `agent-gateway/.agents/skills/e2e/SKILL.md` (build plugin → install → drive via gateway). Runbooks live in `.agents/skills/<name>/SKILL.md`.
-- Linting: selene (`std = "roblox+luau"`) + stylua. This repo raises the bar to `--!strict` on every file.
+- Linting: selene (`std = "roblox+luau"`) + stylua. This repo raises the bar to strict-mode typechecking on every file (`.luaurc` `languageMode = "strict"`; no per-file directives).
 
 ## Key design decisions
 
@@ -59,7 +59,7 @@ MIT licensing on both Roblox repos means we can freely adapt logic and port test
 | `screen` global | **None.** Queries come from `render()`'s result and `within(instance)` | No global document exists in Roblox; scoped queries are honest and avoid global mutable state |
 | Async | `waitFor` via `task.wait` polling (storyteller's pattern, jest-fake-timer compatible); `findBy*` = query + waitFor. No Promise library | Fewer deps, simpler types |
 | Options objects | Explicit named types (`RenderOptions`, `TextMatchOptions`), no merge helpers | This is where verbatim ports lose type info |
-| Typing bar | `--!strict` every file; zero `any`; `unknown` only at true dynamic boundaries (event varargs, error values), each cast commented | User requirement |
+| Typing bar | strict mode on every file via the root `.luaurc` (no per-file directives); zero `any`; `unknown` only at true dynamic boundaries (event varargs, error values), each cast commented | User requirement |
 | LuauPolyfill | Not used in our source (react pulls it transitively; that's fine) | Avoid JS-isms and the polyfill's Roblox-API entanglement |
 | Test runner | jsdotlua/jest 3.10.0 via the org's rocale-cli Open Cloud harness (copy `agent-gateway/.lute/{test.luau,tasks/run-tests.luau}`) | Org convention; runs in a live DataModel |
 

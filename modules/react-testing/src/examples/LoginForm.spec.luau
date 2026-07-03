@@ -1,4 +1,3 @@
---!nonstrict
 -- Dogfood spec: exercises the whole public API against a realistic component.
 -- If this file is awkward to write, the library is wrong — treat friction
 -- here as API feedback, not something to work around.
@@ -12,7 +11,7 @@ local LoginForm = require("./LoginForm")
 
 local describe = JestGlobals.describe
 local expect = JestGlobals.expect
-local it = JestGlobals.it
+local test = JestGlobals.test
 local jest = JestGlobals.jest
 
 ReactTesting.installCleanup(JestGlobals.afterEach)
@@ -29,7 +28,7 @@ local function renderForm()
 end
 
 describe("LoginForm", function()
-	it("submits valid credentials", function()
+	test("submits valid credentials", function()
 		local result, onSubmit = renderForm()
 
 		fireEvent.textChanged(result.getByPlaceholderText("Username") :: TextBox, "marin")
@@ -41,7 +40,7 @@ describe("LoginForm", function()
 		expect(result.queryByTestId("login-error")).toBeNil()
 	end)
 
-	it("requires a username", function()
+	test("requires a username", function()
 		local result, onSubmit = renderForm()
 
 		fireEvent.activated(result.getByText("Log in") :: TextButton)
@@ -50,7 +49,7 @@ describe("LoginForm", function()
 		expect(result.getByText("Username is required")).toBe(result.getByTestId("login-error"))
 	end)
 
-	it("rejects short passwords, then clears the error on success", function()
+	test("rejects short passwords, then clears the error on success", function()
 		local result, onSubmit = renderForm()
 
 		fireEvent.textChanged(result.getByPlaceholderText("Username") :: TextBox, "marin")
@@ -67,7 +66,7 @@ describe("LoginForm", function()
 		expect(result.queryByTestId("login-error")).toBeNil()
 	end)
 
-	it("reflects typed text in the display value", function()
+	test("reflects typed text in the display value", function()
 		local result = renderForm()
 
 		fireEvent.textChanged(result.getByPlaceholderText("Username") :: TextBox, "typed")

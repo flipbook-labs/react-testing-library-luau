@@ -1,4 +1,3 @@
---!nonstrict
 local JestGlobals = require("@pkg/JestGlobals")
 
 local prettyInstanceTree = require("./prettyInstanceTree")
@@ -7,7 +6,7 @@ local within = require("./within")
 local afterEach = JestGlobals.afterEach
 local describe = JestGlobals.describe
 local expect = JestGlobals.expect
-local it = JestGlobals.it
+local test = JestGlobals.test
 
 local container: Folder
 
@@ -18,7 +17,7 @@ afterEach(function()
 end)
 
 describe("within", function()
-	it("scopes queries to the given container", function()
+	test("scopes queries to the given container", function()
 		container = Instance.new("Folder")
 
 		local inner = Instance.new("Frame")
@@ -40,7 +39,7 @@ describe("within", function()
 end)
 
 describe("prettyInstanceTree", function()
-	it("renders the tree with text details", function()
+	test("renders the tree with text details", function()
 		container = Instance.new("Folder")
 		container.Name = "Root"
 
@@ -56,18 +55,18 @@ describe("prettyInstanceTree", function()
 		expect(rendered).toContain('Text="Hello"')
 	end)
 
-	it("marks the highlighted instance", function()
+	test("marks the highlighted instance", function()
 		container = Instance.new("Folder")
 		local label = Instance.new("TextLabel")
 		label.Text = "Target"
 		label.Parent = container
 
-		local rendered = prettyInstanceTree(container, { highlight = label })
+		local rendered = prettyInstanceTree(container, { highlight = label :: Instance })
 
 		expect(rendered).toContain("◄")
 	end)
 
-	it("truncates below maxDepth", function()
+	test("truncates below maxDepth", function()
 		container = Instance.new("Folder")
 		local current: Instance = container
 		for index = 1, 4 do
