@@ -3,36 +3,74 @@
 > Idiomatic-Luau testing library for [react-lua](https://github.com/jsdotlua/react-lua)
 > components, running against real Instances in a live DataModel.
 
-**Status: pre-release scaffolding.** The event-dispatch mechanism is validated
-(see [docs/EVENT_DISPATCH.md](docs/EVENT_DISPATCH.md)); the query and render
-APIs are under construction. See [PLAN.md](PLAN.md) for the roadmap.
+```luau
+local React = require(Packages.React)
+local ReactTesting = require(Packages.ReactTesting)
+
+ReactTesting.installCleanup(JestGlobals.afterEach)
+
+test("clicking increments", function()
+	local function Counter()
+		local count, setCount = React.useState(0)
+		return React.createElement("TextButton", {
+			Text = `Count: {count}`,
+			[React.Event.Activated] = function()
+				setCount(count + 1)
+			end,
+		})
+	end
+
+	local result = ReactTesting.render(React.createElement(Counter))
+
+	ReactTesting.fireEvent.activated(result.getByText("Count: 0") :: TextButton)
+
+	expect(result.getByText("Count: 1")).toBeDefined()
+end)
+```
+
+Full reference: [docs/API.md](docs/API.md). Coming from Roblox's port?
+[docs/migration-from-roblox-rtl.md](docs/migration-from-roblox-rtl.md).
 
 ## Why not the existing port?
 
 Roblox's [react-testing-library-lua](https://github.com/Roblox/react-testing-library-lua)
-is a verbatim transpilation of the JS library. It leans on LuauPolyfill, loses
-type information through object merges, and — critically — its `fireEvent`
-drives `VirtualInputManager`, which is RobloxScriptSecurity and only works in
-Roblox's internal test infrastructure.
+is a verbatim transpilation of the JS library — and its `fireEvent` drives
+`VirtualInputManager`, a RobloxScriptSecurity service that only exists in
+Roblox's internal test infrastructure. Outside it (plugins, Studio command
+bar, Open Cloud Luau execution), the port cannot simulate events at all.
 
-This library keeps the Testing Library mental model (render, queries,
-fireEvent, waitFor) but is designed for Luau:
+This library keeps the Testing Library mental model but is designed for Luau
+and for user-level security:
 
-- `--!strict` throughout; no `any` casts in library source (CI-enforced)
-- Explicit option types instead of merge-based option objects
-- Roblox event names (`Activated`, `FocusLost`), not DOM names (`click`, `blur`)
-- Event dispatch that works at user-level security: React handler invocation
-  via react-roblox's exported internals, plus real engine signals where Luau
-  can trigger them
+- **Event dispatch that works everywhere**: React handler invocation through
+  react-roblox's exported test internals, plus real engine signals where Luau
+  can trigger them ([docs/EVENT_DISPATCH.md](docs/EVENT_DISPATCH.md))
+- **`--!strict` throughout; no `any` casts** in library source (CI-enforced);
+  explicit option types instead of merge-based option objects
+- **Roblox event names** (`activated`, `textChanged`, `focus`), not DOM
+  aliases (`click`, `change`)
+- **No global `screen`** — queries come from `render()` results and
+  `within(container)`; Roblox has no global document
+- **No LuauPolyfill / Promise dependencies** — `waitFor` and `findBy*` are
+  plain blocking calls polling with `task.wait`
+
+## Queries
+
+`ByText`, `ByPlaceholderText`, `ByDisplayValue`, and `ByTestId`
+(CollectionService `data-testid=<value>` tags, compatible with the Roblox
+port's convention) — each as `get / getAll / query / queryAll / find /
+findAll`. `ByRole`/`ByLabelText`/`ByTitle`/`ByAltText` are intentionally
+absent: Roblox has no accessibility tree.
 
 ## Workspace
 
 Two Loom packages wired with a path dependency:
 
 - [`modules/instance-testing`](modules/instance-testing) — queries over plain
-  Instances (the folded dom-testing-library layer; no React dependency)
-- [`modules/react-testing`](modules/react-testing) — render / fireEvent / act /
-  waitFor for react-lua components
+  Instances (the folded dom-testing-library layer; no React dependency —
+  usable with Roact/Fusion/hand-built UI too)
+- [`modules/react-testing`](modules/react-testing) — render / fireEvent /
+  act / waitFor, re-exporting the queries
 
 ## Development
 
@@ -40,8 +78,12 @@ Two Loom packages wired with a path dependency:
 rokit install      # toolchain (lute, rojo, darklua, selene, stylua, wally, ...)
 lute run install   # loom + wally dependencies
 lute run lint      # selene + stylua
-lute run test      # jest via rocale-cli (needs ROBLOX_API_KEY in .env)
+lute run analyze   # strict typecheck (luau-lsp, new solver)
+lute run test      # jest via rocale-cli cloud execution (needs ROBLOX_API_KEY in .env)
 ```
+
+The e2e runbook (headless and in-Studio) lives in
+[.agents/skills/e2e/SKILL.md](.agents/skills/e2e/SKILL.md).
 
 ## License
 
