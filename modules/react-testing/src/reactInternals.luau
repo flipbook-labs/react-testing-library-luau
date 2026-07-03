@@ -41,7 +41,11 @@ local function getCurrentProps(instance: Instance): UnknownMap?
 		)
 	end
 
-	local props = getFiberCurrentPropsFromNode(instance)
+	-- Vetted unknown cast: callability is established by the guard above;
+	-- typeof checks do not narrow `unknown` to a callable type.
+	local getProps = getFiberCurrentPropsFromNode :: (Instance) -> unknown
+
+	local props = getProps(instance)
 	if typeof(props) ~= "table" then
 		return nil
 	end

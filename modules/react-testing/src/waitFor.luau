@@ -31,7 +31,12 @@ local function waitFor(callback: () -> (), options: WaitForOptions?)
 
 	while true do
 		flushReactWork()
-		local ok, err = pcall(callback)
+		-- The explicit unknown return gives pcall's second result a type; a
+		-- bare `pcall(callback)` types as returning only the boolean.
+		local ok, err = pcall(function(): unknown
+			callback()
+			return nil
+		end)
 
 		if ok then
 			return

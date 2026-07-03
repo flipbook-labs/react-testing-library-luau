@@ -2,9 +2,10 @@
 
 How `fireEvent` reaches the handlers a component registered, given that Roblox
 offers no way to synthesize real user input from user-level Luau. Validated by
-the Phase 0 spike (`modules/react-testing/src/__spikes__/eventDispatch.spec.luau`)
-against a live DataModel via rocale-cli (Open Cloud Luau execution) on 2026-07-02.
-All six spike tests passed.
+the Phase 0 spike against a live DataModel via rocale-cli (Open Cloud Luau
+execution) on 2026-07-02; all six spike tests passed. The spike file was
+removed once `fireEvent` landed — its coverage lives on in
+`modules/react-testing/src/fireEvent.spec.luau`.
 
 ## Why not engine-level input
 

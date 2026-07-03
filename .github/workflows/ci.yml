@@ -24,10 +24,15 @@ jobs:
 
       - name: Check for any-casts in library source
         run: |
-          if grep -rn ":: any" modules/*/src --include="*.luau" | grep -v "__spikes__" | grep -v "%.spec%.luau"; then
+          if grep -rn ":: any" modules/*/src --include="*.luau" | grep -v "\.spec\.luau"; then
             echo "':: any' casts are not allowed in library source" >&2
             exit 1
           fi
+
+      - name: Run Luau analysis
+        run: |
+          lute setup
+          lute run analyze
 
   tests:
     runs-on: ubuntu-latest
