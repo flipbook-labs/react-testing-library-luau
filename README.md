@@ -87,9 +87,6 @@ lute run analyze   # strict typecheck (luau-lsp, new solver)
 lute run test      # jest via rocale-cli cloud execution (needs ROBLOX_API_KEY in .env)
 ```
 
-The e2e runbook (headless and in-Studio) lives in
-[.agents/skills/e2e/SKILL.md](.agents/skills/e2e/SKILL.md).
-
 ## License
 
 MIT. Portions of test suites and query behavior derive from Roblox's

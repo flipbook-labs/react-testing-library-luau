@@ -3,9 +3,6 @@
 See [README.md](README.md) for the project overview and [PLAN.md](PLAN.md)
 for the roadmap and phase history.
 
-Task-specific runbooks live as skills under `.agents/skills/<name>/SKILL.md`.
-
-Available skills:
-
-- **`e2e`** (`.agents/skills/e2e/SKILL.md`) — run the test suite end-to-end,
-  headless via the rocale-cli cloud harness or inside Roblox Studio.
+This library is for unit tests only: it is consumed inside Jest specs
+(`*.spec.luau` run via `lute run test`) and has no supported use outside a
+Jest context.

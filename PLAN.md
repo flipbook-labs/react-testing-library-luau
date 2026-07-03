@@ -100,7 +100,6 @@ react-testing-library-luau/
 ├── .luaurc / selene.toml / stylua.toml   # mirror agent-gateway; strict mode
 ├── .lute/{install,check,lint,build,test}.luau + tasks/run-tests.luau   # copy + adapt from agent-gateway
 ├── .github/workflows/{test,release}.yml
-├── .agents/skills/              # e2e runbook added in Phase 5
 └── docs/
 ```
 
@@ -155,7 +154,7 @@ Gate: check + lint + specs green — including the real click→state-change→r
 
 - `README.md` — philosophy (idiomatic vs the verbatim Roblox port), quick start (counter example), installation (Wally), honest limitations (no ByRole, no engine-level input, VirtualInput explanation).
 - `docs/API.md` — full reference with Luau signatures; `docs/EVENT_DISPATCH.md` from Phase 0; `docs/migration-from-roblox-rtl.md` — table of API deltas (event names, options types, no screen/global).
-- `.agents/skills/e2e/SKILL.md` — modeled on agent-gateway's e2e skill: build the library, load it in Studio via the gateway, run the counter scenario against a live Studio DataModel, assert via gateway responses. This is the in-Studio proof beyond cloud jest runs.
+- ~~`.agents/skills/e2e/SKILL.md`~~ — an in-Studio/agent-driven e2e runbook was built here and later **removed**: the library is unit-testing only, with no supported use outside a Jest context.
 - All doc code samples extracted into a compiled spec (or at minimum `lute check`-ed) so examples can't rot at launch.
 
 ### Phase 6 — Publish + ecosystem
@@ -169,8 +168,7 @@ Gate: check + lint + specs green — including the real click→state-change→r
 1. `lute run check && lute run lint` — strict typecheck + selene/stylua across all packages.
 2. `lute run test` — full jest suite through rocale-cli in a cloud DataModel (requires `ROBLOX_API_KEY`, unit-testing place ID — reuse agent-gateway's env).
 3. Acceptance scenario (must pass in suite): render counter → `fireEvent.activated` → `waitFor(getByText("Count: 1"))` → unmount → container destroyed.
-4. In-Studio e2e via the new `.agents/skills/e2e` flow through agent-gateway.
-5. `grep -rn ":: any" modules/*/src` returns nothing; every `unknown` cast has a justification comment.
+4. `grep -rn ":: any" modules/*/src` returns nothing; every `unknown` cast has a justification comment.
 
 ## Risks & open questions (each with owner strategy)
 
