@@ -1,0 +1,24 @@
+[package]
+name = "flipbook-labs/react-testing-library-luau"
+description = "Idiomatic-Luau testing library for React components on Roblox"
+version = "0.1.0"
+license = "MIT"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+exclude = ["*"]
+include = [
+	"dist",
+	"dist/**",
+	"default.project.json",
+	"LICENSE",
+	"README.md",
+	"wally.toml",
+]
+
+[dependencies]
+React = "jsdotlua/react@17.0.2"
+ReactRoblox = "jsdotlua/react-roblox@17.0.2"
+
+#[dev-dependencies]
+Jest = "jsdotlua/jest@3.10.0"
+JestGlobals = "jsdotlua/jest-globals@3.10.0"

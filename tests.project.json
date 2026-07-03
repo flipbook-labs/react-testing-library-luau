@@ -1,0 +1,22 @@
+{
+  "name": "Tests",
+  "tree": {
+    "$className": "DataModel",
+    "ServerScriptService": {
+      "$properties": {
+        "LoadStringEnabled": true
+      }
+    },
+    "ReplicatedStorage": {
+      "Packages": {
+        "$path": "Packages",
+        "InstanceTesting": {
+          "$path": "dist/InstanceTesting"
+        },
+        "ReactTesting": {
+          "$path": "dist/ReactTesting"
+        }
+      }
+    }
+  }
+}

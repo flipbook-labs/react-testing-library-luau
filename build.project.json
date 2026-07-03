@@ -1,0 +1,12 @@
+{
+  "name": "Packages",
+  "tree": {
+    "$path": "Packages",
+    "InstanceTesting": {
+      "$path": "modules/instance-testing/src"
+    },
+    "ReactTesting": {
+      "$path": "modules/react-testing/src"
+    }
+  }
+}
