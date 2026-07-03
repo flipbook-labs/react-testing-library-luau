@@ -64,13 +64,18 @@ absent: Roblox has no accessibility tree.
 
 ## Workspace
 
-Two Loom packages wired with a path dependency:
+Two packages, published together as one Wally artifact:
 
 - [`modules/instance-testing`](modules/instance-testing) — queries over plain
   Instances (the folded dom-testing-library layer; no React dependency —
   usable with Roact/Fusion/hand-built UI too)
 - [`modules/react-testing`](modules/react-testing) — render / fireEvent /
   act / waitFor, re-exporting the queries
+
+The cross-package wiring is `.luaurc` aliases plus the rojo sourcemap that
+darklua converts requires against — Loom (`loom.config.luau` at the root) is
+only for Lute-side tooling dependencies, since this library runs in a
+DataModel, not under Lute.
 
 ## Development
 

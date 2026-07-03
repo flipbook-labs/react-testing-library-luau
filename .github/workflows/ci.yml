@@ -34,6 +34,17 @@ jobs:
           lute setup
           lute run analyze
 
+  changelog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: flipbook-labs/changewrite@v0.5.0
+        with:
+          require-entry: 'true'
+
   tests:
     runs-on: ubuntu-latest
     timeout-minutes: 10
