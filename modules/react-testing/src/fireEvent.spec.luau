@@ -5,7 +5,7 @@ local ReactTesting = require("@self")
 
 local describe = JestGlobals.describe
 local expect = JestGlobals.expect
-local it = JestGlobals.it
+local test = JestGlobals.test
 
 ReactTesting.installCleanup(JestGlobals.afterEach)
 
@@ -13,7 +13,7 @@ local render = ReactTesting.render
 local fireEvent = ReactTesting.fireEvent
 
 describe("fireEvent.activated", function()
-	it("invokes the Activated handler", function()
+	test("invokes the Activated handler", function()
 		local clicks = 0
 		local result = render(React.createElement("TextButton", {
 			Text = "Click",
@@ -28,7 +28,7 @@ describe("fireEvent.activated", function()
 		expect(clicks).toBe(2)
 	end)
 
-	it("is a no-op when no handler is registered", function()
+	test("is a no-op when no handler is registered", function()
 		local result = render(React.createElement("TextButton", {
 			Text = "Inert",
 		}))
@@ -40,7 +40,7 @@ describe("fireEvent.activated", function()
 end)
 
 describe("fireEvent.mouse*", function()
-	it("invokes MouseButton1Click, MouseEnter, and MouseLeave handlers", function()
+	test("invokes MouseButton1Click, MouseEnter, and MouseLeave handlers", function()
 		local events: { string } = {}
 		local result = render(React.createElement("TextButton", {
 			Text = "Hover",
@@ -65,7 +65,7 @@ describe("fireEvent.mouse*", function()
 end)
 
 describe("fireEvent.textChanged", function()
-	it("sets the text and fires the Change.Text handler for real", function()
+	test("sets the text and fires the Change.Text handler for real", function()
 		local observed: { string } = {}
 		local result = render(React.createElement("TextBox", {
 			Text = "",
@@ -82,7 +82,7 @@ describe("fireEvent.textChanged", function()
 		expect(result.getByDisplayValue("hello")).toBe(box)
 	end)
 
-	it("drives controlled TextBoxes through React state", function()
+	test("drives controlled TextBoxes through React state", function()
 		local function Controlled()
 			local value, setValue = React.useState("")
 			return React.createElement("TextBox", {
@@ -106,7 +106,7 @@ describe("fireEvent.textChanged", function()
 end)
 
 describe("fireEvent.focus / blur", function()
-	it("fires Focused and FocusLost handlers exactly once each", function()
+	test("fires Focused and FocusLost handlers exactly once each", function()
 		local focusCount = 0
 		local blurCount = 0
 
@@ -134,7 +134,7 @@ describe("fireEvent.focus / blur", function()
 end)
 
 describe("fireEvent.custom", function()
-	it("fires arbitrary event props by key and reports whether a handler ran", function()
+	test("fires arbitrary event props by key and reports whether a handler ran", function()
 		local received: { unknown } = {}
 		local result = render(React.createElement("TextButton", {
 			Text = "Custom",

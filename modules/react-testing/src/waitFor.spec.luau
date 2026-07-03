@@ -6,12 +6,12 @@ local waitFor = require("./waitFor")
 
 local describe = JestGlobals.describe
 local expect = JestGlobals.expect
-local it = JestGlobals.it
+local test = JestGlobals.test
 
 ReactTesting.installCleanup(JestGlobals.afterEach)
 
 describe("waitFor", function()
-	it("returns as soon as the callback stops throwing", function()
+	test("returns as soon as the callback stops throwing", function()
 		local attempts = 0
 		waitFor(function()
 			attempts += 1
@@ -22,7 +22,7 @@ describe("waitFor", function()
 		expect(attempts).toBe(3)
 	end)
 
-	it("throws the last error after the timeout", function()
+	test("throws the last error after the timeout", function()
 		expect(function()
 			waitFor(function()
 				error("never succeeds")
@@ -32,7 +32,7 @@ describe("waitFor", function()
 end)
 
 describe("findBy queries", function()
-	it("finds elements that appear after an effect", function()
+	test("finds elements that appear after an effect", function()
 		local function AppearsLater()
 			local visible, setVisible = React.useState(false)
 
@@ -55,7 +55,7 @@ describe("findBy queries", function()
 		expect(loaded).toBeDefined()
 	end)
 
-	it("findByTestId times out with the query error", function()
+	test("findByTestId times out with the query error", function()
 		local result = ReactTesting.render(React.createElement("Frame"))
 
 		expect(function()

@@ -5,7 +5,7 @@ local ReactTesting = require("@self")
 
 local describe = JestGlobals.describe
 local expect = JestGlobals.expect
-local it = JestGlobals.it
+local test = JestGlobals.test
 
 ReactTesting.installCleanup(JestGlobals.afterEach)
 
@@ -13,7 +13,7 @@ local render = ReactTesting.render
 local fireEvent = ReactTesting.fireEvent
 
 describe("render", function()
-	it("renders into a fresh ScreenGui by default", function()
+	test("renders into a fresh ScreenGui by default", function()
 		local result = render(React.createElement("TextLabel", {
 			Text = "Hello",
 		}))
@@ -22,7 +22,7 @@ describe("render", function()
 		expect(result.getByText("Hello")).toBeDefined()
 	end)
 
-	it("renders into a provided container and does not destroy it on unmount", function()
+	test("renders into a provided container and does not destroy it on unmount", function()
 		local container: Instance = Instance.new("Folder")
 		local result = render(
 			React.createElement("TextLabel", {
@@ -40,7 +40,7 @@ describe("render", function()
 		container:Destroy()
 	end)
 
-	it("rerenders in place", function()
+	test("rerenders in place", function()
 		local function Greeting(props)
 			return React.createElement("TextLabel", {
 				Text = `Hello, {props.name}!`,
@@ -55,7 +55,7 @@ describe("render", function()
 		expect(result.getByText("Hello, World!")).toBeDefined()
 	end)
 
-	it("unmounts and empties the container", function()
+	test("unmounts and empties the container", function()
 		local result = render(React.createElement("TextLabel", {
 			Text = "Short-lived",
 		}))
@@ -68,7 +68,7 @@ describe("render", function()
 end)
 
 describe("acceptance: counter", function()
-	it("renders, clicks, and observes the state change", function()
+	test("renders, clicks, and observes the state change", function()
 		local function Counter()
 			local count, setCount = React.useState(0)
 			return React.createElement("Frame", {
