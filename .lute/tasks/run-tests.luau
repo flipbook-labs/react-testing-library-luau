@@ -8,9 +8,10 @@ _G.__ROACT_17_MOCK_SCHEDULER__ = true
 local Jest = (require :: any)(ReplicatedStorage.Packages.Jest)
 
 local Packages = ReplicatedStorage.Packages
-local roots = { Packages.InstanceTesting, Packages.ReactTesting }
+local library = Packages.ReactTestingLibraryLuau
+local roots = { library.InstanceTesting, library.ReactTesting }
 
-local status, result = Jest.runCLI(Packages.ReactTesting, {
+local status, result = Jest.runCLI(library.ReactTesting, {
 	verbose = false,
 	ci = false,
 	-- selene: allow(global_usage)

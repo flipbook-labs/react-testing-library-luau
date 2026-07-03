@@ -25,7 +25,7 @@ local function LoginForm(props: Props)
 			setError("Password must be at least 8 characters")
 			return
 		end
-		setError(nil)
+		setError(nil :: string?)
 		props.onSubmit(username, password)
 	end
 
