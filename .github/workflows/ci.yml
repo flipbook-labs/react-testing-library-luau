@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: CompeyDev/setup-rokit@1d9390883f7ebce19d48f5b8d006e11d387c92ab # v0.2.1
+        with:
+          version: v1.2.0
+
+      - name: Install packages
+        run: lute run install
+
+      - name: Lint
+        run: lute run lint
+
+      - name: Check for any-casts in library source
+        run: |
+          if grep -rn ":: any" modules/*/src --include="*.luau" | grep -v "__spikes__" | grep -v "%.spec%.luau"; then
+            echo "':: any' casts are not allowed in library source" >&2
+            exit 1
+          fi
+
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: CompeyDev/setup-rokit@1d9390883f7ebce19d48f5b8d006e11d387c92ab # v0.2.1
+        with:
+          version: v1.2.0
+
+      - name: Install packages
+        run: lute run install
+
+      - name: Run tests
+        run: lute run test
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}

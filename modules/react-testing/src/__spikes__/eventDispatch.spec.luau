@@ -192,7 +192,9 @@ describe("environment probes (informational, always pass)", function()
 			(serviceOrErr :: any):SendMouseButtonEvent(0, 0, 0, true, nil, 1)
 		end)
 		print(
-			`[spike] VirtualInputManager: GetService ok; SendMouseButtonEvent {if sendOk then "PERMITTED" else `DENIED -> {sendErr}`}`
+			`[spike] VirtualInputManager: GetService ok; SendMouseButtonEvent {if sendOk
+				then "PERMITTED"
+				else `DENIED -> {sendErr}`}`
 		)
 	end)
 
