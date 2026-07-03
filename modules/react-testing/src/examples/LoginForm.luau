@@ -14,7 +14,7 @@ export type Props = {
 local function LoginForm(props: Props)
 	local username, setUsername = React.useState("")
 	local password, setPassword = React.useState("")
-	local error_, setError = React.useState(nil :: string?)
+	local error_, setError = React.useState("")
 
 	local function submit()
 		if username == "" then
@@ -25,7 +25,7 @@ local function LoginForm(props: Props)
 			setError("Password must be at least 8 characters")
 			return
 		end
-		setError(nil :: string?)
+		setError("")
 		props.onSubmit(username, password)
 	end
 
@@ -48,7 +48,7 @@ local function LoginForm(props: Props)
 				setPassword(rbx.Text)
 			end,
 		}),
-		ErrorMessage = if error_ ~= nil
+		ErrorMessage = if error_ ~= ""
 			then React.createElement("TextLabel", {
 				Text = error_,
 				LayoutOrder = 3,
