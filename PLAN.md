@@ -16,7 +16,13 @@ flipbook-labs builds React-based Roblox UI (flipbook, storyteller) but has no co
 ## Research findings (verified)
 
 ### VirtualInput is off the table
-`VirtualInputManager` / `VirtualInput` are RobloxScriptSecurity, internal-only benchmarking services — unusable from plugins, the command bar, and Open Cloud Luau execution sessions. RBXScriptSignals also cannot be fired from user Luau. **Event simulation must invoke the React-registered listeners directly** (the approach both Roblox's port and Kampfkarren's react-roblox-fire-event take), not engine-level input.
+`VirtualInputManager` / `VirtualInput` are RobloxScriptSecurity, internal-only benchmarking services — unusable from plugins, the command bar, and Open Cloud Luau execution sessions (the Phase 0 spike confirmed `GetService("VirtualInputManager")` throws "not a valid Service name" in a cloud session). RBXScriptSignals also cannot be fired from user Luau. **Event simulation must invoke the React-registered listeners directly**, not engine-level input.
+
+**Phase 0 correction to earlier research:** Roblox's `dom-testing-library-lua` fireEvent (`src/jsHelpers/dispatchEvent.lua`) is built ON VirtualInputManager (`SendMouseButtonEvent`, `SendKeyEvent`, ...) — it only works in Roblox's internal elevated-permission test infra, and is therefore unusable as-is by community consumers. This makes this library the only workable approach outside Roblox, not just a re-typing.
+
+**Phase 0 outcome (COMPLETE — all spike tests passed in a live cloud DataModel, see `docs/EVENT_DISPATCH.md`):**
+- Mechanism A: `ReactRoblox.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.Events.getFiberCurrentPropsFromNode(instance)` → `props[React.Event.Foo]` → invoke handler inside `ReactRoblox.act`. Verified: handler found, state updates flow, rerenders don't leave stale handlers.
+- Mechanism B: real engine triggers work — `TextBox.Text` set fires `Change.Text` handler; `CaptureFocus()` fires `Focused` even headless. `ReleaseFocus()` did NOT fire `FocusLost` in the cloud session (Phase 3 must investigate; fallback is mechanism A).
 
 ### Reference implementations
 | Repo | License | Status | Notes |
@@ -44,7 +50,7 @@ MIT licensing on both Roblox repos means we can freely adapt logic and port test
 | Decision | Choice | Rationale |
 |---|---|---|
 | Repo name | `flipbook-labs/react-testing-library-luau` | Signals lineage + platform; final name adjustable at bootstrap |
-| Package split | Two packages: `packages/instance-testing` (folded DTL: queries over plain Instances, no React dep) + `packages/react-testing` (render/fireEvent/act/waitFor, path-depends on the former) | Queries are useful standalone (Roact/Fusion UIs too); matches the DTL→RTL layering; exercises the Loom path-dep workspace |
+| Package split | Two packages: `modules/instance-testing` (folded DTL: queries over plain Instances, no React dep) + `modules/react-testing` (render/fireEvent/act/waitFor, path-depends on the former) | Queries are useful standalone (Roact/Fusion UIs too); matches the DTL→RTL layering; exercises the Loom path-dep workspace |
 | Dependency channels | Loom for lute/batteries tooling + path deps between our packages; **React/ReactRoblox/Jest via Wally** (`wally.toml` dev-deps) like every sibling repo | Loom's `registry` sourceKind exists but no org repo uses it for jsdotlua packages; don't pioneer that here |
 | Wally publishing | Single package `flipbook-labs/react-testing-library-luau` containing both layers in `dist/` | One artifact for v0.1; split later if standalone query demand appears |
 | Event simulation | Hybrid: **real engine triggers where user Luau can cause them** (set `TextBox.Text` → real Changed/TextChanged; `CaptureFocus()`/`ReleaseFocus()` → real Focused/FocusLost) + **direct listener invocation** for pointer events (Activated, MouseButton1Click, MouseEnter/Leave) which have no user-Luau trigger. Exact listener-lookup mechanism resolved by the Phase 0 spike | VirtualInput is unusable; RBXScriptSignals can't be fired from Luau; real triggers where possible = highest fidelity |
@@ -67,7 +73,7 @@ The one real technical risk: how to reach the handlers react-roblox registered o
 
 1. Read the MIT reference sources: `Roblox/dom-testing-library-lua` `src/jsHelpers/dispatchEvent.lua` + `src/event-map.lua`, and `Roblox/react-testing-library-lua` `src/fire-event.lua`, `src/act-compat.lua`. Establish exactly how they look up listeners (fiber props? instance→fiber map? react-roblox internals?).
 2. Read jsdotlua/react-roblox 17.0.2 host-config source: where `Activated = fn` props become `:Connect` calls and whether an instance→props/fiber mapping is reachable from public or semi-public exports.
-3. Prototype in a scratch spec (temporary `packages/spike/`), run through the rocale-cli harness:
+3. Prototype in a scratch spec (temporary `modules/spike/`), run through the rocale-cli harness:
    - Render `TextButton` with `Activated` handler → invoke it via the chosen mechanism → assert called.
    - Set `TextBox.Text` directly → assert a `Changed`/`GetPropertyChangedSignal`-driven React handler fires for real.
    - `TextBox:CaptureFocus()` / `ReleaseFocus()` → assert `Focused`/`FocusLost` handlers fire for real (validates the hybrid strategy in a cloud DataModel).
@@ -107,7 +113,7 @@ Gate: `lute run check` + `lint` pass on stub `init.luau` files; CI green on a no
 
 ### Phase 2 — `instance-testing`: queries over Instances
 
-Port DTL-lua's behavior, redesigned types. Files under `packages/instance-testing/src/`:
+Port DTL-lua's behavior, redesigned types. Files under `modules/instance-testing/src/`:
 
 - `types.luau` — `TextMatch = string | (string, Instance) -> boolean` (no RegExp type; Luau has `string.match` — accept Lua patterns via option), `TextMatchOptions = { exact: boolean?, pattern: boolean?, normalizer: ((string) -> string)? }`, `QueryVariants<Args...>` generics if expressible, else explicit six-variant types per query.
 - `queries/text.luau` — match `.Text` on TextLabel/TextButton/TextBox descendants; whitespace-normalized by default.
@@ -125,7 +131,7 @@ Gate: check + lint + specs green.
 
 ### Phase 3 — `react-testing`: render / fireEvent / act / waitFor
 
-Files under `packages/react-testing/src/`:
+Files under `modules/react-testing/src/`:
 
 - `types.luau` — `RenderOptions = { container: Instance? }`, `RenderResult = { container: Instance, unmount: () -> (), rerender: (React.ReactElement<any>?) -> () }` **plus** bound query methods (generated from instance-testing's `within`), typed explicitly. (If `React.ReactElement`'s own generics force an `any`, wrap in a local `ReactElement` alias at the react boundary with a vetted `unknown` and a comment — this is the one sanctioned dynamic boundary.)
 - `render.luau` — `createRoot` into `options.container or Instance.new("ScreenGui")` parented to the test DataModel (CoreGui/place root per harness), wrapped in `ReactRoblox.act`; returns result with scoped queries + `unmount`/`rerender`; registers container for `cleanup()`.
@@ -141,8 +147,8 @@ Gate: check + lint + specs green — including the real click→state-change→r
 
 ### Phase 4 — Public API assembly + type audit
 
-- `packages/react-testing/src/init.luau` exports: `render`, `cleanup`, `installCleanup`, `act`, `fireEvent`, `waitFor`, `within`, `prettyInstanceTree`, `configure`, and re-exported types.
-- Type audit: grep for `:: any` (must be zero) and `:: unknown`/`unknown` (each needs a justifying comment); confirm every exported function has full explicit signatures. Add a CI lint step: `grep -rn ":: any" packages/*/src` fails the build.
+- `modules/react-testing/src/init.luau` exports: `render`, `cleanup`, `installCleanup`, `act`, `fireEvent`, `waitFor`, `within`, `prettyInstanceTree`, `configure`, and re-exported types.
+- Type audit: grep for `:: any` (must be zero) and `:: unknown`/`unknown` (each needs a justifying comment); confirm every exported function has full explicit signatures. Add a CI lint step: `grep -rn ":: any" modules/*/src` fails the build.
 - Smoke spec importing every export.
 
 ### Phase 5 — Docs + e2e skill
@@ -164,7 +170,7 @@ Gate: check + lint + specs green — including the real click→state-change→r
 2. `lute run test` — full jest suite through rocale-cli in a cloud DataModel (requires `ROBLOX_API_KEY`, unit-testing place ID — reuse agent-gateway's env).
 3. Acceptance scenario (must pass in suite): render counter → `fireEvent.activated` → `waitFor(getByText("Count: 1"))` → unmount → container destroyed.
 4. In-Studio e2e via the new `.agents/skills/e2e` flow through agent-gateway.
-5. `grep -rn ":: any" packages/*/src` returns nothing; every `unknown` cast has a justification comment.
+5. `grep -rn ":: any" modules/*/src` returns nothing; every `unknown` cast has a justification comment.
 
 ## Risks & open questions (each with owner strategy)
 
