@@ -1,5 +1,3 @@
---!strict
-
 -- Queries TextBoxes by their PlaceholderText.
 
 local matching = require("../matching")

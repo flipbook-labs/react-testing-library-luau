@@ -1,5 +1,3 @@
---!strict
-
 --- A text matcher: either a literal string or a predicate over the normalized
 --- text and the instance it came from.
 export type TextMatch = string | (text: string, instance: Instance) -> boolean

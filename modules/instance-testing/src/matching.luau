@@ -1,5 +1,3 @@
---!strict
-
 -- Text matching shared by every query. Behavior mirrors upstream
 -- testing-library's matches/fuzzyMatches, expressed with Luau string
 -- facilities (Lua patterns via `pattern = true` instead of RegExp).

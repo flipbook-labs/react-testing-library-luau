@@ -1,5 +1,3 @@
---!strict
-
 -- Example component used by the dogfood specs (and the README-style docs).
 -- A small but realistic form: two TextBoxes, client-side validation, and a
 -- submit button that reports the credentials upward.

@@ -1,5 +1,3 @@
---!strict
-
 -- Queries TextBoxes by their current (user-editable) Text value.
 
 local matching = require("../matching")

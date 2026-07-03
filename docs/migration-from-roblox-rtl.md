@@ -41,7 +41,7 @@ tagged for the Roblox port keep working.
 
 ## Typing
 
-Everything is `--!strict` with no `any` casts in library source, so your
+Everything is strict-mode Luau with no `any` casts in library source, so your
 strict spec files get real inference: `getByText` returns `Instance` (narrow
 with `:: TextButton` where you need class-specific APIs), option tables are
 closed types, and misuse fails analysis instead of runtime.

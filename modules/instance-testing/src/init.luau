@@ -1,5 +1,3 @@
---!strict
-
 -- InstanceTesting: queries over Roblox Instances — the folded
 -- dom-testing-library layer. No React dependency; usable against any
 -- Instance tree (React, Roact, Fusion, or hand-built).

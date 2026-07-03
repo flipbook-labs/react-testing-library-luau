@@ -1,5 +1,3 @@
---!strict
-
 -- Internal: turns a `queryAll` primitive into the four synchronous query
 -- variants with consistent error behavior:
 --

@@ -1,4 +1,3 @@
---!nonstrict
 local JestGlobals = require("@pkg/JestGlobals")
 local React = require("@pkg/React")
 
@@ -24,7 +23,7 @@ describe("render", function()
 	end)
 
 	it("renders into a provided container and does not destroy it on unmount", function()
-		local container = Instance.new("Folder")
+		local container: Instance = Instance.new("Folder")
 		local result = render(
 			React.createElement("TextLabel", {
 				Text = "Hello",

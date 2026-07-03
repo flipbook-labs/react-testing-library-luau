@@ -1,5 +1,3 @@
---!strict
-
 -- Internal registry of live roots so cleanup() can unmount everything a test
 -- rendered, even on failure paths that never reach unmount().
 

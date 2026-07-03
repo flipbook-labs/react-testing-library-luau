@@ -1,4 +1,3 @@
---!nonstrict
 local CollectionService = game:GetService("CollectionService")
 
 local JestGlobals = require("@pkg/JestGlobals")

@@ -1,5 +1,3 @@
---!strict
-
 -- Queries by test id, carried as a CollectionService tag of the form
 -- `<testIdAttribute>=<value>` (default `data-testid=<value>`). Compatible
 -- with the tagging convention of Roblox's dom-testing-library-lua port and

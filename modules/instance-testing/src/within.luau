@@ -1,5 +1,3 @@
---!strict
-
 -- Binds every query to a container, giving the ergonomic form used in tests:
 --
 --   local queries = within(container)

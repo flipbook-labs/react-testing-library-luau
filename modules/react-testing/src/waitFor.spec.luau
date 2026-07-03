@@ -1,4 +1,3 @@
---!nonstrict
 local JestGlobals = require("@pkg/JestGlobals")
 local React = require("@pkg/React")
 

@@ -1,5 +1,3 @@
---!strict
-
 -- Async query variants: poll (via waitFor) until the underlying get/getAll
 -- succeeds or the timeout elapses. Useful for UI that appears after effects
 -- or deferred state updates.

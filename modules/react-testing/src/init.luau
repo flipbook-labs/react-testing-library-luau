@@ -1,5 +1,3 @@
---!strict
-
 -- ReactTesting: render / fireEvent / act / waitFor for react-lua components,
 -- with instance queries re-exported from InstanceTesting.
 

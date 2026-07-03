@@ -1,5 +1,3 @@
---!strict
-
 -- Polls a callback until it stops throwing or the timeout elapses (in
 -- seconds, matching task.wait). Ported from storyteller's test-utils, with
 -- one addition: each attempt first flushes pending React work. Under the

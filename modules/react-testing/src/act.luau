@@ -1,5 +1,3 @@
---!strict
-
 -- Thin re-export. ReactRoblox.act requires `_G.__ROACT_17_MOCK_SCHEDULER__`
 -- to be set before Jest/React load; the test runner does this.
 

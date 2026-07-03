@@ -1,4 +1,3 @@
---!nonstrict
 -- Dogfood spec: exercises the whole public API against a realistic component.
 -- If this file is awkward to write, the library is wrong — treat friction
 -- here as API feedback, not something to work around.

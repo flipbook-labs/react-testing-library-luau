@@ -1,4 +1,3 @@
---!nonstrict
 local JestGlobals = require("@pkg/JestGlobals")
 
 local text = require("./text")

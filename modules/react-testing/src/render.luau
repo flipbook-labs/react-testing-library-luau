@@ -1,5 +1,3 @@
---!strict
-
 -- Renders a React element into a container and returns the container-bound
 -- queries plus lifecycle controls.
 

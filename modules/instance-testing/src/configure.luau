@@ -1,5 +1,3 @@
---!strict
-
 export type Config = {
 	--- Prefix for the CollectionService tag that carries an instance's test id.
 	--- An instance with tag `data-testid=submit-button` has test id

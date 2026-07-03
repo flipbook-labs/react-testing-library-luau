@@ -1,4 +1,3 @@
---!nonstrict
 local JestGlobals = require("@pkg/JestGlobals")
 
 local prettyInstanceTree = require("./prettyInstanceTree")
@@ -62,7 +61,7 @@ describe("prettyInstanceTree", function()
 		label.Text = "Target"
 		label.Parent = container
 
-		local rendered = prettyInstanceTree(container, { highlight = label })
+		local rendered = prettyInstanceTree(container, { highlight = label :: Instance })
 
 		expect(rendered).toContain("◄")
 	end)
