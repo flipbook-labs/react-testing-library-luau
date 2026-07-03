@@ -25,7 +25,7 @@ assert(channel == "dev" or channel == "prod", `bad value for channel (must be on
 local PRUNED_FILE_PATTERNS = {
 	"%.spec%.luau",
 	"jest%.config%.luau",
-	"__spikes__",
+	"examples",
 }
 
 local function build()
