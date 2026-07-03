@@ -6,7 +6,7 @@ local placeholderText = require("./placeholderText")
 local afterEach = JestGlobals.afterEach
 local describe = JestGlobals.describe
 local expect = JestGlobals.expect
-local it = JestGlobals.it
+local test = JestGlobals.test
 
 local container: Folder
 
@@ -29,14 +29,14 @@ afterEach(function()
 end)
 
 describe("getByPlaceholderText", function()
-	it("finds a TextBox by placeholder", function()
+	test("finds a TextBox by placeholder", function()
 		newContainer()
 		local box = makeTextBox("", "Username")
 
 		expect(placeholderText.get(container, "Username")).toBe(box)
 	end)
 
-	it("ignores TextLabels", function()
+	test("ignores TextLabels", function()
 		newContainer()
 		local label = Instance.new("TextLabel")
 		label.Text = "Username"
@@ -45,7 +45,7 @@ describe("getByPlaceholderText", function()
 		expect(placeholderText.query(container, "Username")).toBeNil()
 	end)
 
-	it("supports substring matching", function()
+	test("supports substring matching", function()
 		newContainer()
 		local box = makeTextBox("", "Enter your username")
 
@@ -54,14 +54,14 @@ describe("getByPlaceholderText", function()
 end)
 
 describe("getByDisplayValue", function()
-	it("finds a TextBox by its current value", function()
+	test("finds a TextBox by its current value", function()
 		newContainer()
 		local box = makeTextBox("marin", "Username")
 
 		expect(displayValue.get(container, "marin")).toBe(box)
 	end)
 
-	it("returns nil for a value no TextBox holds", function()
+	test("returns nil for a value no TextBox holds", function()
 		newContainer()
 		makeTextBox("marin", "Username")
 
