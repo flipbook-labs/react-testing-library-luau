@@ -8,6 +8,6 @@
 		"instancetesting": "./modules/instance-testing/src",
 		"reacttesting": "./modules/react-testing/src",
 		"repo": ".",
-		"batteries": "~/.loom/store/Lute@v1.0.1-nightly.20260508/batteries"
+		"batteries": "~/.loom/store/Lute@v1.0.1-nightly.20260701/batteries"
 	}
 }
