@@ -1,7 +1,7 @@
 return {
 	package = {
 		name = "ReactTestingLibraryLuau",
-		version = "0.2.0",
+		version = "0.2.1",
 		dependencies = {
 			FlipbookBatteries = {
 				rev = "v0.12.0",
