@@ -1,3 +1,22 @@
+## v0.2.1
+
+### Changes
+
+- Upgrade the Changewrite release action to `v0.7.0` and adopt its `publish-lock` check.
+
+- Removed the e2e agent runbook (`.agents/skills/e2e`) and its documentation pointers. The library is for unit tests only and has no supported use outside a Jest context.
+
+- Library source no longer carries per-file `--!strict` directives — strict typechecking is enforced repo-wide via `.luaurc`, and the spec files (previously `--!nonstrict`) are now strict-checked too.
+
+- Test suites now use jest's `test` function instead of its `it` alias, matching the README examples.
+
+### Dependencies
+
+- Add AgentSkills `v0.4.0` as a dev dependency so agents can bootstrap the shared skills library.
+
+- Upgrade FlipbookBatteries `v0.10.1` → `v0.12.0` and Lute `v1.0.1-nightly.20260508` → `v1.0.1-nightly.20260701`.
+
+
 ## [0.2.0] - 2026-07-03
 
 ### Fixes
