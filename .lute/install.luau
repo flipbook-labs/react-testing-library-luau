@@ -16,7 +16,7 @@ local LOCKFILE_PATH = "pkg.lock.luau"
 -- `.config.luau`, and values are dependency names in `pkg.luau`.
 local DEPENDENCY_ALIASES: { [string]: string } = {
 	batteries = "Lute",
-	flipbookbatteries = "FlipbookBatteries",
+	["flipbook-batteries"] = "FlipbookBatteries",
 }
 
 type Lockfile = {
@@ -53,7 +53,11 @@ local function installLoomPackages()
 
 	for alias, name in DEPENDENCY_ALIASES do
 		local storePath = getStorePath(lockfile, name)
-		local updated, count = config:gsub(`(%f[%w]{alias}%s*=%s*")[^"]*(")`, `%1{storePath}%2`)
+		-- An alias with a hyphen is written as a `["key"]`, so the pattern allows
+		-- the brackets and quotes. The frontier treats `-` as part of a name, so
+		-- `batteries` doesn't match the end of `flipbook-batteries`.
+		local escapedAlias = alias:gsub("%p", "%%%0")
+		local updated, count = config:gsub(`(%f[%w%-]{escapedAlias}"?%]?%s*=%s*")[^"]*(")`, `%1{storePath}%2`)
 		assert(count == 1, `Expected one "{alias}" alias in {CONFIG_PATH}, found {count}`)
 		config = updated
 	end
