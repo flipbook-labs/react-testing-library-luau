@@ -48,7 +48,7 @@ and for user-level security:
 - **Event dispatch that works everywhere**: React handler invocation through
   react-roblox's exported test internals, plus real engine signals where Luau
   can trigger them ([docs/EVENT_DISPATCH.md](docs/EVENT_DISPATCH.md))
-- **Strict-mode Luau throughout (via `.luaurc`); no `any` casts** in library source (CI-enforced);
+- **Strict-mode Luau throughout (via `.config.luau`); no `any` casts** in library source (CI-enforced);
   explicit option types instead of merge-based option objects
 - **Roblox event names** (`activated`, `textChanged`, `focus`), not DOM
   aliases (`click`, `change`)
@@ -75,10 +75,10 @@ Two packages, published together as one Wally artifact:
 - [`modules/react-testing`](modules/react-testing) — render / fireEvent /
   act / waitFor, re-exporting the queries
 
-The cross-package wiring is `.luaurc` aliases plus the rojo sourcemap that
-darklua converts requires against — Loom (`loom.config.luau` at the root) is
-only for Lute-side tooling dependencies, since this library runs in a
-DataModel, not under Lute.
+The cross-package wiring is the aliases in `.config.luau` (mirrored in
+`.darklua.json` for the build) plus the rojo sourcemap that darklua converts
+requires against — Loom (`pkg.luau` at the root) is only for Lute-side tooling
+dependencies, since this library runs in a DataModel, not under Lute.
 
 ## Development
 

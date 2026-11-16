@@ -5,7 +5,7 @@ Everything below is exported from the `ReactTesting` package
 `InstanceTesting` (`modules/instance-testing`), which can also be used on its
 own against non-React Instance trees.
 
-All functions are fully typed under strict mode (the repo-wide `.luaurc`
+All functions are fully typed under strict mode (the repo-wide `.config.luau`
 default). Types referenced here:
 
 ```luau
