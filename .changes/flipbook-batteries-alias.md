@@ -1,7 +1,7 @@
 ---
 bump: patch
 category: Internal
-kind: packages
+kind: tooling
 ---
 
-Rename the FlipbookBatteries alias to `@flipbook-batteries`, and copy Loom dependencies into `LuauPackages/` so aliases use stable paths.
+Rename the FlipbookBatteries alias to `@flipbook-batteries`, and add an `@agent-skills` alias for the shared skills library.
