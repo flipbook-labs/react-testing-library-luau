@@ -1,7 +1,7 @@
 ---
 bump: patch
 category: Internal
-kind: tooling
+kind: packages
 ---
 
-Rename the FlipbookBatteries alias in `.config.luau` to `@flipbook-batteries`.
+Rename the FlipbookBatteries alias to `@flipbook-batteries`, and copy Loom dependencies into `LuauPackages/` so aliases use stable paths.
