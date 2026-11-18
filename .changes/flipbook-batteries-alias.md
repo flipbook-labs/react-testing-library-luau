@@ -4,4 +4,4 @@ category: Internal
 kind: tooling
 ---
 
-Rename the FlipbookBatteries alias to `@flipbook-batteries`, and add an `@agent-skills` alias for the shared skills library.
+Rename the dependency keys in `pkg.luau` to lowercase kebab-case, and have `lute run install` write an alias for each one, such as `@flipbook-batteries` and `@agent-skills`.
