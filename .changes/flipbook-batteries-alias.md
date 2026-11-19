@@ -4,4 +4,4 @@ category: Internal
 kind: tooling
 ---
 
-Rename the dependency keys in `pkg.luau` to lowercase kebab-case, and have `lute run install` write an alias for each one, such as `@flipbook-batteries` and `@agent-skills`. `pkg.luau` also lists the files a Loom package ships, including a `modules/.config.luau` that keeps the `@instancetesting` alias with vendored copies.
+Vendor the Lute dependencies into `.lpm/` with Lute `1.0.1-nightly.20261117` and require them through one `@lpm` alias, with FlipbookBatteries `v0.13.1`. `pkg.luau` also lists the files a Lute package ships, including a `modules/.config.luau` that keeps the `@instancetesting` alias with vendored copies.

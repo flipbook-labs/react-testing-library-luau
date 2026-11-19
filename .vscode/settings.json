@@ -2,6 +2,7 @@
   "luau-lsp.sourcemap.rojoProjectFile": "tests.project.json",
   "luau-lsp.ignoreGlobs": [
     "**/LuauPackages/**",
+    "**/.lpm/**",
     "**/_Index/**",
     "**/dist/**",
     "**/.lute/typedefs/**"
