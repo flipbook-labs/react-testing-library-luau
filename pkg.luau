@@ -2,6 +2,17 @@ return {
 	package = {
 		name = "ReactTestingLibraryLuau",
 		version = "0.2.0",
+		-- `modules/.config.luau` is hidden, so it has to be named to ship. The
+		-- exclusions match what the prod build prunes from `dist/`.
+		files = {
+			"/modules/**",
+			"!/modules/**/*.spec.luau",
+			"!/modules/**/jest.config.luau",
+			"!/modules/**/examples/**",
+			"/modules/.config.luau",
+			"/README.md",
+			"/LICENSE",
+		},
 		dependencies = {
 			["flipbook-batteries"] = {
 				rev = "v0.13.0",
