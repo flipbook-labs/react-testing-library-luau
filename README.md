@@ -77,14 +77,14 @@ Two packages, published together as one Wally artifact:
 
 The cross-package wiring is the aliases in `.config.luau` (mirrored in
 `.darklua.json` for the build) plus the rojo sourcemap that darklua converts
-requires against — Loom (`pkg.luau` at the root) is only for Lute-side tooling
+requires against — Lute packages (`pkg.luau` at the root) are only for Lute-side tooling
 dependencies, since this library runs in a DataModel, not under Lute.
 
 ## Development
 
 ```sh
 rokit install      # toolchain (lute, rojo, darklua, selene, stylua, wally, ...)
-lute run install   # loom + wally dependencies
+lute run install   # Lute packages + Wally dependencies
 lute run lint      # selene + stylua
 lute run analyze   # strict typecheck (luau-lsp, new solver)
 lute run test      # jest via rocale-cli cloud execution (needs ROBLOX_API_KEY in .env)
