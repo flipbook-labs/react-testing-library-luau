@@ -1,7 +1,7 @@
 return {
 	package = {
 		name = "ReactTestingLibraryLuau",
-		version = "0.2.0",
+		version = "0.2.1",
 		-- `modules/.config.luau` is hidden, so it has to be named to ship. The
 		-- exclusions match what the prod build prunes from `dist/`.
 		files = {
