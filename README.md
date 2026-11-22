@@ -4,11 +4,12 @@ ReactTestingLibraryLuau renders react-lua components into real Instances in a li
 
 ## Install
 
+Add this to `wally.toml`:
+
 ```toml
 [dev-dependencies]
 ReactTestingLibraryLuau = "flipbook-labs/react-testing-library-luau@0.2.0"
 ```
-
 
 ## Use
 
