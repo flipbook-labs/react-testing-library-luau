@@ -6,6 +6,7 @@ current = "0.2.0"
 mirror = [
   { file = "pkg.luau" },
   { file = "wally.toml" },
+  { file = "README.md", pattern = "flipbook%-labs/react%-testing%-library%-luau@([%d%.]+)" },
 ]
 
 [kind]
