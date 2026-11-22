@@ -16,9 +16,9 @@ ReactTestingLibraryLuau = "flipbook-labs/react-testing-library-luau@0.2.0"
 Render a component, click a button, and assert on the result:
 
 ```luau
-local JestGlobals = require(Packages.JestGlobals)
-local React = require(Packages.React)
-local ReactTesting = require(Packages.ReactTestingLibraryLuau)
+local JestGlobals = require("@pkg/JestGlobals")
+local React = require("@pkg/React")
+local ReactTesting = require("@pkg/ReactTestingLibraryLuau")
 
 local expect = JestGlobals.expect
 local test = JestGlobals.test
