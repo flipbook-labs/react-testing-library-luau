@@ -4,24 +4,11 @@ ReactTestingLibraryLuau renders react-lua components into real Instances in a li
 
 ## Install
 
-With Wally:
-
 ```toml
 [dev-dependencies]
 ReactTestingLibraryLuau = "flipbook-labs/react-testing-library-luau@0.2.0"
 ```
 
-With Lute, add this to `pkg.luau` and run `lute pkg install --vendor`:
-
-```luau
-dev_dependencies = {
-	["react-testing-library-luau"] = {
-		rev = "v0.2.0",
-		sourceKind = "github",
-		source = "https://github.com/flipbook-labs/react-testing-library-luau",
-	},
-},
-```
 
 ## Use
 
@@ -64,7 +51,7 @@ ReactTesting.fireEvent.textChanged(result.getByPlaceholderText("Username") :: Te
 
 ## Queries
 
-Queries match `Text`, `PlaceholderText`, a TextBox's `Text`, and `data-testid` tags. Each one comes in `get`, `getAll`, `query`, `queryAll`, `find`, and `findAll` forms, and the bound forms on `render()` results and `within(container)` take the same arguments without the container. `ByRole`, `ByLabelText`, `ByTitle`, and `ByAltText` do not exist, because Roblox has no accessibility tree.
+Queries match `Text`, `PlaceholderText`, a TextBox's `Text`, and `data-testid` tags. Each one comes in `get`, `getAll`, `query`, `queryAll`, `find`, and `findAll` forms as top-level functions that take the container first. `render()` results bind every form to the rendered tree except `findByTestId` and `findAllByTestId`, and `within(container)` binds only the `get` and `query` forms. `ByRole`, `ByLabelText`, `ByTitle`, and `ByAltText` do not exist, because Roblox has no accessibility tree.
 
 ## Differences from Roblox's port
 
