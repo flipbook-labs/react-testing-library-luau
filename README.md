@@ -52,7 +52,7 @@ ReactTesting.fireEvent.textChanged(result.getByPlaceholderText("Username") :: Te
 
 ## Queries
 
-Queries match `Text`, `PlaceholderText`, a TextBox's `Text`, and `data-testid` tags. Each one comes in `get`, `getAll`, `query`, `queryAll`, `find`, and `findAll` forms as top-level functions that take the container first. `render()` results bind every form to the rendered tree except `findByTestId` and `findAllByTestId`, and `within(container)` binds only the `get` and `query` forms. `ByRole`, `ByLabelText`, `ByTitle`, and `ByAltText` do not exist, because Roblox has no accessibility tree.
+Queries match `Text`, `PlaceholderText`, a TextBox's `Text`, and `data-testid` tags. Each one comes in `get`, `getAll`, `query`, `queryAll`, `find`, and `findAll` forms as top-level functions that take the container first. `render()` results bind every form to the rendered tree, and `within(container)` binds only the `get` and `query` forms. `ByRole`, `ByLabelText`, `ByTitle`, and `ByAltText` do not exist, because Roblox has no accessibility tree.
 
 ## Differences from Roblox's port
 
