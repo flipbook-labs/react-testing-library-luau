@@ -8,7 +8,7 @@ Add this to `wally.toml`:
 
 ```toml
 [dev-dependencies]
-ReactTestingLibraryLuau = "flipbook-labs/react-testing-library-luau@0.2.0"
+ReactTestingLibraryLuau = "flipbook-labs/react-testing-library-luau@0.2.1"
 ```
 
 ## Use
